@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --transition-duration: 200ms;
+  --bg: #ffffff;
+  --panel: #fafafa;
+  --text: #18181b;
+  --muted: #71717a;
+  --border: #e4e4e7;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+html.perf {
+  --transition-duration: 0ms;
+}
+
+html.dark {
+  --bg: #0b0b0e;
+  --panel: #121216;
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --border: #27272a;
+  --glass-bg: rgba(18, 18, 22, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  min-width: 1024px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* glass only exists in quality mode */
+html.quality .glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-color: var(--glass-border);
+}
+
+.press {
+  transition: transform var(--transition-duration) ease;
+}
+.press:active {
+  transform: scale(0.96);
+}
+
+.fade {
+  transition:
+    opacity var(--transition-duration) ease,
+    transform var(--transition-duration) ease;
+}
+html.perf .fade,
+html.perf .press {
+  transition: none;
+}
+
+.fade-in {
+  animation: fadein var(--transition-duration) ease both;
+}
+html.perf .fade-in {
+  animation: none;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* thin rounded scrollbar with a soft hover glow (quality only) */
+html.quality ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+html.quality ::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+}
+html.quality ::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+  box-shadow: 0 0 6px rgba(99, 102, 241, 0.5);
+}
+html.perf ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+html.perf ::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+/* the editor never gets backdrop-filter */
+textarea {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 16px;
+  line-height: 1.6;
+  tab-size: 2;
+}
